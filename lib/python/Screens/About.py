@@ -84,6 +84,10 @@ class About(Screen):
 			BoxName = "XCORE Spycat"
 		elif boxtype == 'quadbox2400':
 			BoxName = "AX Quadbox HD2400"
+		elif boxtype == 'vusolo2':
+			BoxName = "Vuplus Solo2"
+		elif boxtype == 'vuzero4k':
+			BoxName = "Vuplus Zero4K"
 		else:
 			BoxName = about.getHardwareTypeString()
 
@@ -146,7 +150,7 @@ class About(Screen):
 		self["KernelVersion"] = StaticText(KernelVersion)
 		AboutText += KernelVersion + "\n"
 
-		if getMachineBuild() in ('gb7252', 'gb72604'):
+		if getMachineBuild() in ('vusolo2', 'vuzero4k', 'gb7252', 'gb72604'):
 			b = popen('cat /proc/stb/info/version').read().strip()
 			driverdate=str(b[0:4] + '-' + b[4:6] + '-' + b[6:8] + ' ' + b[8:10]  + ':' + b[10:12] + ':' + b[12:14])
 			AboutText += _("DVB drivers: ") + driverdate + "\n"
@@ -341,7 +345,7 @@ class CommitInfo(Screen):
 		self.project = 0
 		self.projects = [
 			#("organisation",  "repository",           "readable name",                "branch", "github/gitlab"),
-			("teamblue-e2",      "enigma2",               "teamBlue Enigma2",             "6.4", "github"),
+			("teamblue-e2",      "enigma2",               "Ostende Builds",             "6.4", "github"),
 			("teamblue-e2",      "skin",             "teamBlue Skin GigaBlue Pax",   "master", "github"),
 			("oe-alliance",   "oe-alliance-core",     "OE Alliance Core",             "4.4", "github"),
 			("oe-alliance",   "oe-alliance-plugins",  "OE Alliance Plugins",          "master", "github"),
@@ -426,8 +430,8 @@ class ContactInfo(Screen):
 		self["manufacturerinfo"] = StaticText(self.getManufacturerinfo())
 
 	def getManufacturerinfo(self):
-		minfo = "teamBlue\n"
-		minfo += "http://teamblue.tech\n"
+		minfo = "ostende\n"
+		minfo += "http://startimes.com\n"
 		return minfo
 
 class MemoryInfo(Screen):
