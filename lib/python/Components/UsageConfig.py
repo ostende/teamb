@@ -42,9 +42,9 @@ def InitUsageConfig():
 	config.usage.hide_number_markers = ConfigYesNo(default = True)
 	config.usage.hide_number_markers.addNotifier(refreshServiceList)
 
-	config.usage.servicetype_icon_mode = ConfigSelection(default = "0", choices = [("0", _("None")), ("1", _("Left from servicename")), ("2", _("Right from servicename"))])
+	config.usage.servicetype_icon_mode = ConfigSelection(default = "2", choices = [("0", _("None")), ("1", _("Left from servicename")), ("2", _("Right from servicename"))])
 	config.usage.servicetype_icon_mode.addNotifier(refreshServiceList)
-	config.usage.crypto_icon_mode = ConfigSelection(default = "0", choices = [("0", _("None")), ("1", _("Left from servicename")), ("2", _("Right from servicename"))])
+	config.usage.crypto_icon_mode = ConfigSelection(default = "2", choices = [("0", _("None")), ("1", _("Left from servicename")), ("2", _("Right from servicename"))])
 	config.usage.crypto_icon_mode.addNotifier(refreshServiceList)
 	config.usage.record_indicator_mode = ConfigSelection(default = "2", choices = [("0", _("None")), ("1", _("Left from servicename")), ("2", _("Right from servicename")), ("3", _("Red colored"))])
 	config.usage.record_indicator_mode.addNotifier(refreshServiceList)
@@ -88,7 +88,7 @@ def InitUsageConfig():
 	config.usage.oldstyle_zap_controls = ConfigYesNo(default = False)
 	config.usage.oldstyle_channel_select_controls = ConfigYesNo(default = False)
 	config.usage.zap_with_ch_buttons = ConfigYesNo(default = True)
-	config.usage.ok_is_channelselection = ConfigYesNo(default = False)
+	config.usage.ok_is_channelselection = ConfigYesNo(default = True)
 	config.usage.volume_instead_of_channelselection = ConfigYesNo(default = False)
 	config.usage.channelselection_preview = ConfigYesNo(default = False)
 	config.usage.show_spinner = ConfigYesNo(default = True)
@@ -228,7 +228,7 @@ def InitUsageConfig():
 	for i in (60, 120, 300):
 		m = i / 60
 		choicelist.append((str(i), ngettext("%d minute", "%d minutes", m) % m))
-	config.usage.timeshift_start_delay = ConfigSelection(default = "0", choices = choicelist)
+	config.usage.timeshift_start_delay = ConfigSelection(default = "5", choices = choicelist)
 
 	config.usage.alternatives_priority = ConfigSelection(default = "0", choices = [
 		("0", "DVB-S/-C/-T"),
@@ -326,7 +326,7 @@ def InitUsageConfig():
 	config.usage.show_message_when_recording_starts = ConfigYesNo(default = True)
 
 	config.usage.load_length_of_movies_in_moviellist = ConfigYesNo(default = True)
-	config.usage.show_icons_in_movielist = ConfigSelection(default = 'i', choices = [
+	config.usage.show_icons_in_movielist = ConfigSelection(default = 'p', choices = [
 		('o', _("Off")),
 		('p', _("Progress")),
 		('s', _("Small progress")),
@@ -368,10 +368,10 @@ def InitUsageConfig():
 	config.usage.show_eit_nownext = ConfigYesNo(default = True)
 	config.usage.show_vcr_scart = ConfigYesNo(default = False)
 	config.usage.show_update_disclaimer = ConfigYesNo(default = True)
-	config.usage.pic_resolution = ConfigSelection(default=None, choices=[(None, _("Same resolution as skin")), ("(720, 576)","720x576"), ("(1280, 720)", "1280x720"), ("(1920, 1080)", "1920x1080")][:SystemInfo["HasFullHDSkinSupport"] and 4 or 3])
+	config.usage.pic_resolution = ConfigSelection(default= None, choices=[(None, _("Same resolution as skin")), ("(720, 576)","720x576"), ("(1280, 720)", "1280x720"), ("(1920, 1080)", "1920x1080")][:SystemInfo["HasFullHDSkinSupport"] and 4 or 3])
 
 	if SystemInfo["Bootvideo"]:
-		config.usage.show_bootvideo = ConfigYesNo(default = False)
+		config.usage.show_bootvideo = ConfigYesNo(default = True)
 
 	if SystemInfo["Fan"]:
 		choicelist = [('off', _("Off")), ('on', _("On")), ('auto', _("Auto"))]
@@ -546,7 +546,7 @@ def InitUsageConfig():
 	config.crash.debug_path.addNotifier(updatedebug_path, immediate_feedback = False)
 	crashlogheader = _("We are really sorry. Your receiver encountered " \
 					 "a software problem, and needs to be restarted.\n" \
-					 "Please send the logfile %senigma2_crash_xxxxxx.log to www.teamblue.tech.\n" \
+					 "Please send the logfile %senigma2_crash_xxxxxx.log to www.startimes.com.\n" \
 					 "Your receiver restarts in 10 seconds!\n" \
 					 "Component: enigma2") % config.crash.debug_path.value
 	config.crash.debug_text = ConfigText(default=crashlogheader, fixed_size=False)
