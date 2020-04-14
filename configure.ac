@@ -106,6 +106,7 @@ AM_CONDITIONAL(SKYLAKE, test `echo "$BOXTYPE" | cut -b 1-2` == "hd")
 AM_CONDITIONAL(HAVE_TEMPFANCONTROL, test "$BOXTYPE" == dm8000 -o "$BOXTYPE" == dm800se -o "$BOXTYPE" == dm500hd)
 AM_CONDITIONAL(GIGABLUE, test `echo "$BOXTYPE" | cut -b 1-2` == "gb")
 AM_CONDITIONAL(GBIPBOX, test "$MACHINEBUILD" == gbipbox)
+AM_CONDITIONAL(VUPLUS, test `echo "$BOXTYPE" | cut -b 1-2` == "vu")
 
 if test `echo "$BOXTYPE" | cut -b 1-2` == "dm"; then
 	AC_DEFINE(DREAMBOX, 1, [Dreambox hardware])
@@ -138,6 +139,21 @@ AC_ARG_WITH(7segment,
 	[[TEXTSKIN="default"]]
 )
 AC_SUBST(TEXTSKIN)
+
+if test `echo "$BOXTYPE" | cut -b 1-2` == "vu"; then
+	AC_DEFINE(FORCE_NO_BLENDING_ACCELERATION, 1,[define when the framebuffer acceleration does not have alphablending support, though the autodetection might indicate that it does])
+	AC_DEFINE(FORCE_NO_FILL_ACCELERATION, 1,[define when the framebuffer acceleration does not have fill support])
+	AC_DEFINE(FORCE_ADVANCED_REMOTE, 1,[define to fixup the input device identification when the remote control is actually an 'advanced' remote (with play/forward/rewind keys)])
+fi
+
+AC_ARG_WITH(libvugles2,
+	AS_HELP_STRING([--with-libvugles2],[use libvugles2, yes or no]),
+	[with_libvugles2=$withval],[with_libvugles2=no])
+if test "$with_libvugles2" = "yes"; then
+	PKG_CHECK_MODULES(LIBVUGLES2, [libvugles2])
+	GLES_CFLAGS="-DUSE_LIBVUGLES2"
+fi
+AM_CONDITIONAL(HAVE_LIBVUGLES2, test "$with_libvugles2" = "yes")
 
 AC_ARG_WITH(colorlcd220,
 	AC_HELP_STRING([--with-colorlcd220], [use 220x176 16bpp color display, yes or no]),
@@ -367,6 +383,17 @@ AC_ARG_WITH(blitaccelerationthreshold,
 )
 
 AC_DEFINE_UNQUOTED(GFX_SURFACE_BLIT_ACCELERATION_THRESHOLD, $with_blitaccelerationthreshold,[Configure threshold for accelerated blit operations (in bytes)])
+
+AC_ARG_WITH(osdanimation,
+	AC_HELP_STRING([--with-osdanimation], [use osd animation, yes or no]),
+	[[withosdanimation=$withval]],
+	[[withosdanimation=no]]
+)
+if test x"$withosdanimation" != xno ; then
+
+	AC_DEFINE(HAVE_OSDANIMATION, 1,[Define if driver supports animation of osd])
+fi
+AM_CONDITIONAL(HAVE_OSDANIMATION, test x"$withosdanimation" != xno)
 
 AC_ARG_WITH(accelerationaccumulation,
 	AC_HELP_STRING([--with-accelerationaccumulation], [accumulate blit/fill acceleration operations]),
